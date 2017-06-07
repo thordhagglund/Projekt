@@ -3,31 +3,60 @@
 */
 
 #include <Arduino.h>
+
+/*
+* Bibliotek för att mäta temperatur med sensorerna (<modellnummer>).
+*/
 #include <DallasTemperature.h>
 #define ONE_WIRE_BUS 4       // Anger pinnen där du ska köra temp sensorn. 
+/*
+* Slut
+*/
 
 
+
+/*
+* Bibliotek för att ansluta till nätverket och posta till REST-tjänst
+*/
+#include <Bridge>
+#include <HttpClient>
+/*
+* Slut
+*/
+
+
+
+/*
+* Funktioner och variabler relaterade till att posta datat
+*/
+//TODO
+
+void http_setup(){
+//Måste justeras
+  pinMode(13, OUTPUT);
+  digitalWrite(13, LOW);
+  Bridge.begin();
+  Serial.begin(9600);
+  while(!Serial);
+}
+
+/*
+* Slut
+*/
+
+
+
+/*
+* Funktioner och variabler relaterade till temperaturmätning
+*/
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature DS18B20(&oneWire);
 char temperatureString[6];
-
 
  void ReadDS18B20Temperature() {
  // Serial.print("Requesting DS18B20 temperature...");
   float temp;
   float temp1;
-  
-   /* 
-    
-    temp = DS18B20.getTempCByIndex(0);
-    Serial.print("sensor 1: ");
-   Serial.println(temp);
-
-    temp1 = DS18B20.getTempCByIndex(1);
-        Serial.print("sensor 2: ");
-   Serial.println(temp1);
-
-   */
 
   for (int i = 0; i < 2; i++){
     do {
@@ -42,11 +71,15 @@ char temperatureString[6];
     Serial.println(temp);  
   }
    
-    delay(100);
-  
-//  return temp;
+    delay(100); //ms
   }
   
+/*
+* Slut temperaturmätning
+*/
+
+
+
 void setup() {
   // put your setup code here, to run once:
 DS18B20.begin(); // aktiverar sensorn. 
